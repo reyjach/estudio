@@ -150,21 +150,21 @@ export const searchParkings = async (criteria) => {
   return result;
 };
  
-export const getParkings = async(limitParking) => {  //this there are change for the collection
-    const result = { statusResponse: true, error: null, parkings: [], startParking: null }
+export const getRealState = async(limitRealState) => {  //this there are change for the collection
+    const result = { statusResponse: true, error: null, realStates: [], startRealState: null }
     try {
         const response = await db
-            .collection("parkingLots")
+            .collection("apartaments")
             .orderBy("createAt", "desc")
-            .limit(limitParking)
+            .limit(limitRealState)
             .get()
         if (response.docs.length > 0) {
-            result.startParking = response.docs[response.docs.length - 1]
+            result.startRealState = response.docs[response.docs.length - 1]
         }
         response.forEach((doc) => {
-            const parking = doc.data()
-            parking.id = doc.id
-            result.parkings.push(parking)
+            const realState = doc.data()
+            realState.id = doc.id
+            result.realStates.push(realState)
         })
     } catch (error) {
         result.statusResponse = false
@@ -175,22 +175,22 @@ export const getParkings = async(limitParking) => {  //this there are change for
 }
 
 
-export const getMoreParking = async(limitParking, startParking) => {  //this there are change for the collection
-    const result = { statusResponse: true, error: null, parkings: [], startParking: null }
+export const getMoreRealState = async(limitRealState, startParking) => {  //this there are change for the collection
+    const result = { statusResponse: true, error: null, realStates: [], startRealState: null }
     try {
         const response = await db
-            .collection("parkingLots")
+            .collection("apartaments")
             .orderBy("createAt", "desc")
             .startAfter(startParking.data().createAt)
-            .limit(limitParking)
+            .limit(limitRealState)
             .get()
         if (response.docs.length > 0) {
-            result.startParking = response.docs[response.docs.length - 1]
+            result.startRealState = response.docs[response.docs.length - 1]
         }
         response.forEach((doc) => {
-            const parking = doc.data()
-            parking.id = doc.id
-            result.parkings.push(parking)
+            const realState = doc.data()
+            realState.id = doc.id
+            result.realStates.push(realState)
         })
     } catch (error) {
         result.statusResponse = false
