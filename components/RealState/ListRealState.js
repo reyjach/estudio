@@ -1,7 +1,7 @@
 import { size } from 'lodash'
 import React from 'react'
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
-import { Image } from 'react-native-elements'
+import { Image, Icon } from 'react-native-elements'
 import { formatPhone } from '../../utils/helpers'
 
 export default function ListRealState({ realStates, navigation, handleLoadMore }) {
@@ -22,7 +22,7 @@ export default function ListRealState({ realStates, navigation, handleLoadMore }
 }
 
 function RealStates ( {realState, navigation, handleLoadMore } ) {
-    const {id, images, name, address, description, phone, callingCode} = realState.item
+    const {id, images, name, address, phone, callingCode, neighborhood, price} = realState.item
     const imageRealState = images[0]
 
     const goRealState = () => {
@@ -43,16 +43,17 @@ function RealStates ( {realState, navigation, handleLoadMore } ) {
                     </View>
                 
                 <View>
-                <Text style={styles.realStateTitle}>{name}</Text>
-                        <Text style={styles.realStateInformation}>{address}</Text>
-                        <Text style={styles.realStateInformation}>{formatPhone(callingCode, phone)}</Text>
-                        <Text style={styles.realStateDescription}>
-                            {
-                                size(description) > 0
-                                    ? `${description.substr(0, 60)}...`
-                                    : description
-                            }
-                </Text>
+                    <Text style={styles.realStateTitle}>{name}</Text>
+                    <Text style={styles.realStateInformation}>{address}</Text>
+                    <Text style={styles.realStateInformation}>{formatPhone(callingCode, phone)}</Text>
+                    <Text style={styles.realStateInformation}>Barrio:{"  "+neighborhood}</Text>   
+                    <Text style={styles.costPrice}>
+                        <Icon
+                            type="material-community" name="home-city-outline" 
+                        > 
+                        </Icon>
+                        <Text style={styles.cost}>{"  $"+ parseFloat(price)}</Text>
+                    </Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -62,25 +63,31 @@ function RealStates ( {realState, navigation, handleLoadMore } ) {
 const styles = StyleSheet.create({
     viewRealState: {
         flexDirection: "row",
-        margin: 10
+        margin: 10,
+        backgroundColor: "#fff"
     },
     viewRealStateImage: {
         marginRight: 15
     },
     imageRealState: {
-        width: 90,
-        height: 90
+        width: 110,
+        height: 110,
+        borderRadius: 10
     },
     realStateTitle: {
         fontWeight: "bold"
     },
     realStateInformation: {
         paddingTop: 2,
-        color: "grey"
+        color: "black"
     },
-    realStateDescription: {
+    costPrice: {
         paddingTop: 2,
         color: "grey",
-        width: "75%"
+        flexDirection: "column"
+    },
+    cost: {
+        marginLeft: 40,
+        color: "#d33149"
     }
 })

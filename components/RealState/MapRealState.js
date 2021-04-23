@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import MapView from 'react-native-maps'
 import openMap from 'react-native-open-maps'
 
-export default function MapRestaurant({ location, name, height }) {
+export default function MapRealState({ location, name, height }) {
 
     const openAppMap = () => {
         openMap({

@@ -214,141 +214,6 @@ export const getDocumentById = async(collection, id) => {
 
 }
 
-export const getUserBookings = async(limitBooking,userId) => {  
-    const result = { statusResponse: true, error: null, bookings: [], startBooking: null }
-    let now = new Date()
-    try {
-        const response = await db
-            .collection("bookings")
-            .where("userId","==",userId)
-            .where("startTime",">",now)
-            .orderBy("startTime")
-            .limit(limitBooking)
-            .get()
-        if (response.docs.length > 0) {
-            result.startBooking = response.docs[response.docs.length - 1]
-        }
-        response.forEach((doc) => {
-            const booking = doc.data()
-            booking.id = doc.id
-            result.bookings.push(booking)
-        })
-    } catch (error) {
-        result.statusResponse = false
-        result.error = error
-    }
-    
-    return result
-
-}
-
-export const getParkingBookings = async(parkingId) => {  
-    const result = { statusResponse: true, error: null, bookings: [] }
-    let now = new Date()
-    try {
-        const response = await db
-            .collection("bookings")
-            .where("parkingId","==",parkingId)
-            .where("endTime",">=",now)
-            .get()
-     
-        response.forEach((doc) => {
-            const booking = doc.data()
-            booking.id = doc.id
-            result.bookings.push(booking)
-        })
-    } catch (error) {
-        result.statusResponse = false
-        result.error = error
-        console.log(error)
-    }
-    return result
-
-}
-
-export const getUserBookingHistory = async(limitBooking,userId) => {  
-    const result = { statusResponse: true, error: null, bookings: [], startBooking: null }
-    let now = new Date()
-    try {
-        const response = await db
-            .collection("bookings")
-            .where("userId","==",userId)
-            .where("endTime","<",now)
-            .orderBy("endTime")
-            .limit(limitBooking)
-            .get()
-        if (response.docs.length > 0) {
-            result.startBooking = response.docs[response.docs.length - 1]
-        }
-        response.forEach((doc) => {
-            const booking = doc.data()
-            booking.id = doc.id
-            result.bookings.push(booking)
-        })
-    } catch (error) {
-        result.statusResponse = false
-        result.error = error
-    }
-    
-    return result
-
-}
-
-export const getMoreUserBookingHistory = async(limitBooking, startBooking,userId) => {  
-    const result = { statusResponse: true, error: null, bookings: [], startBooking: null }
-    let now = new Date()
-    try {
-        const response = await db
-            .collection("bookings")
-            .where("userId","==",userId)
-            .where("endTime","<",now)
-            .orderBy("endTime")
-            .startAfter(startBooking.data().endTime)
-            .limit(limitBooking)
-            .get()
-        if (response.docs.length > 0) {
-            result.StartBooking = response.docs[response.docs.length - 1]
-        }
-        response.forEach((doc) => {
-            const booking = doc.data()
-            booking.id = doc.id
-            result.bookings.push(booking)
-        })
-    } catch (error) {
-        result.statusResponse = false
-        result.error = error
-    }
-    return result
-
-}
-
-export const getMoreUserBookings = async(limitBooking, startBooking,userId) => {  
-    const result = { statusResponse: true, error: null, bookings: [], startBooking: null }
-    let now = new Date()
-    try {
-        const response = await db
-            .collection("bookings")
-            .where("userId","==",userId)
-            .where("startTime",">",now)
-            .orderBy("startTime")
-            .startAfter(startBooking.data().startTime)
-            .limit(limitBooking)
-            .get()
-        if (response.docs.length > 0) {
-            result.startBooking = response.docs[response.docs.length - 1]
-        }
-        response.forEach((doc) => {
-            const booking = doc.data()
-            booking.id = doc.id
-            result.bookings.push(booking)
-        })
-    } catch (error) {
-        result.statusResponse = false
-        result.error = error
-    }
-    return result
-
-}
 
 export const updateDocument = async(collection, id, data) => {
     const result = { statusResponse: true, error: null }
@@ -361,12 +226,12 @@ export const updateDocument = async(collection, id, data) => {
     return result     
 }
 
-export const getParkingReviews = async(id) => {
+export const getRealStateReviews = async(id) => {
     const result = { statusResponse: true, error: null, reviews: [] }
     try {
         const response = await db
             .collection("reviews")
-            .where("idParking", "==", id)
+            .where("id", "==", id)
             .get()
         response.forEach((doc) => {
             const review = doc.data()

@@ -16,7 +16,7 @@ export default function RealState({ navigation }) {
     const [real, setReal] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const limitRealStates = 7
+    const limitRealStates = 6
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((userInfo) => {
